@@ -11,7 +11,7 @@ typedef struct
 }WebSite;
 
 //Deklarasi variabel untuk database.c
-extern const WebSite database[];
-extern const int jumlah_website;
+extern const WebSite database[]; /*Variabel array untuk nyimpen semua website*/
+extern const int jumlah_website; /*Variabel integer buat ngitung jumlah website di database.c*/
 
 #endif
