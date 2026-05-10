@@ -3,7 +3,7 @@
 
 int main(){
 
-    app();
+    home();
 
     return 0;
 }
