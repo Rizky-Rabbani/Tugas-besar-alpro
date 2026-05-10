@@ -25,4 +25,12 @@ void CommandRouter1(char* command);
 
 void CommandRouter2(char* command, char* extra);
 
+void printGajah(void);
+
+void printHarimau(void);
+
+void printGajahArt(void);
+
+void printAnya(void);
+
 #endif
