@@ -1,8 +1,9 @@
 #include "website.h"
+#include "load.h"
 #include <stdio.h>
 #include <string.h>
 
-void home(void)
+void home(WebDatabase *db)
 {
     char input[100];
     char command[100];
@@ -10,9 +11,10 @@ void home(void)
     int jumlah_kata = 0;
     int running = 1; // Variabel kontrol perulangan
 
-    puts("                ===Selamat Datang di Home Interface===");
+    puts("\n\n                ===Selamat Datang di Home Interface===");
     puts("Ketik 'help' untuk menunjukkan beberapa command yang bisa dipakai!!");
-    
+    printAnya();
+
     while(running) 
     {
         printf("\n>>> ");
@@ -43,12 +45,12 @@ void home(void)
             // Kalo input 1 kata, program ngarahin ke command router 1
             if(jumlah_kata == 1) 
             {
-                CommandRouter1(command);
+                CommandRouter1(command, db);
             }
             // Kalo input 2 kata, program ngarahin ke command router 2
             else if(jumlah_kata == 2) 
             {
-                CommandRouter2(command, extra);
+                CommandRouter2(command, extra, db);
             }
             // Penanganan input tidak valid 
             else 
