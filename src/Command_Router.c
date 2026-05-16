@@ -40,8 +40,7 @@ void CommandRouter1(char* command, WebDatabase *db)
 
 }
 
-void CommandRouter2(char* command, char* extra, WebDatabase *db) 
-{
+void CommandRouter2(char* command, char* extra, WebDatabase *db) {
     RemoveNewline(extra); 
     
     if(strcmp(command, "open") == 0)
@@ -70,5 +69,9 @@ void CommandRouter2(char* command, char* extra, WebDatabase *db)
         } else {
             prevtab(db, langkah);
         }
+    }else if(strcmp(command, "search") == 0)
+    {
+        Search(extra);
+
     }
 }
