@@ -6,14 +6,69 @@
 void CommandRouter1(char* command, WebDatabase *db)
 {
     printf("%s command router 1 menerima\n", command);
+    RemoveNewline(command);
+
+    if(strcmp(command, "newtab") == 0)
+    {
+        newtab(db);
+
+    }else if(strcmp(command, "closetab")==0)
+    {
+        closetab(db);
+
+    }else if(strcmp(command, "checktab") == 0)
+    {
+        checktab(db);
+
+    }else if(strcmp(command, "nexttab") == 0)
+    {
+        nexttab(db, 1);
+
+    }else if(strcmp(command, "prevtab") == 0)
+    {
+        prevtab(db, 1);
+
+    }else if(strcmp(command, "back") == 0)
+    {
+        back(db);
+
+    }else if(strcmp(command, "forward") == 0)
+    {
+        forward(db);
+
+    }
+
 }
 
-void CommandRouter2(char* command, char* extra, WebDatabase *db) {
-
+void CommandRouter2(char* command, char* extra, WebDatabase *db) 
+{
     RemoveNewline(extra); 
     
     if(strcmp(command, "open") == 0)
     {
         open(db, extra);
+    }
+    else if(strcmp(command, "nexttab") == 0)
+    {
+        int langkah;
+
+        if (sscanf(extra, "%d", &langkah) != 1) 
+        {
+            printf("\nERROR: Argumen harus berupa angka integer!\n");
+
+        } else {
+            nexttab(db, langkah);
+        }
+    }
+    else if(strcmp(command, "prevtab") == 0)
+    {
+        int langkah;
+        if (sscanf(extra, "%d", &langkah) != 1) 
+        {
+            printf("\nERROR: Argumen harus berupa angka integer!\n");
+
+        } else {
+            prevtab(db, langkah);
+        }
     }
 }
