@@ -57,6 +57,9 @@ void printHarimau(void);
 void printGajahArt(void);
 void printAnya(void);
 
+// ----- E01 Validasi URL ----- //
+int ValidasiURL(const char* url);
+
 // ----- F02 Open ----- //
 void Search(char* query);
 
