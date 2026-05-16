@@ -50,6 +50,15 @@ void home(WebDatabase *db)
             // Kalo input 2 kata, program ngarahin ke command router 2
             else if(jumlah_kata == 2) 
             {
+                if (strcmp(command, "open") == 0) 
+                {
+                    if (!ValidasiURL(extra)) 
+                    {
+                        printf("\nERROR: Format URL tidak valid sesuai aturan E01!\n");
+                        // Menghentikan alur agar tidak masuk ke CommandRouter2
+                        continue; 
+                    }
+                }
                 CommandRouter2(command, extra, db);
             }
             // Penanganan input tidak valid 
