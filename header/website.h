@@ -57,6 +57,9 @@ void printHarimau(void);
 void printGajahArt(void);
 void printAnya(void);
 
+// ----- F02 Open ----- //
+void Search(char* query);
+
 // ----- F03 Open ----- //
 void open(WebDatabase* db, char* link);
 
