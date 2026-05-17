@@ -60,7 +60,7 @@ void printAnya(void);
 // ----- E01 Validasi URL ----- //
 int ValidasiURL(const char* url);
 
-// ----- F02 Open ----- //
+// ----- F02 Search ----- //
 void Search(char* query);
 
 // ----- F03 Open ----- //
@@ -75,12 +75,14 @@ void checktab(WebDatabase* db);
 void InputTab(WebDatabase* db, WebSite web);
 void prevtab(WebDatabase* db, int geser);
 void nexttab(WebDatabase* db, int geser);
-void nexttab(WebDatabase* db, int langkah);
-void prevtab(WebDatabase* db, int langkah);
+
 
 
 // ----- F07 Web Management ----- // 
-void back(WebDatabase* db);
-void forward(WebDatabase* db);
+void back(WebDatabase* db, int langkah);
+void forward(WebDatabase* db, int langkah);
+
+// ----- F08 Tab History ----- // 
+void view_tab_history(WebDatabase* db);
 
 #endif
