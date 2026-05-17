@@ -2,10 +2,10 @@
 #include "load.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 void CommandRouter1(char* command, WebDatabase *db)
 {
-    printf("%s command router 1 menerima\n", command);
     RemoveNewline(command);
 
     if(strcmp(command, "newtab") == 0)
@@ -30,11 +30,15 @@ void CommandRouter1(char* command, WebDatabase *db)
 
     }else if(strcmp(command, "back") == 0)
     {
-        back(db);
+        back(db, 1);
 
     }else if(strcmp(command, "forward") == 0)
     {
-        forward(db);
+        forward(db, 1);
+
+    }else if (strcmp(command, "view_tab_history") == 0)
+    {
+        view_tab_history(db);
 
     }
 
@@ -72,6 +76,14 @@ void CommandRouter2(char* command, char* extra, WebDatabase *db) {
     }else if(strcmp(command, "search") == 0)
     {
         Search(extra);
+
+    }else if(strcmp(command, "back") == 0)
+    {
+        back(db, atoi(extra));
+
+    }else if(strcmp(command, "forward") == 0)
+    {
+        forward(db, atoi(extra));
 
     }
 }
