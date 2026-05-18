@@ -2,6 +2,8 @@
 #include "website.h"
 #include <stdio.h>
 
+extern void SeedLCG(); 
+
 int main() {
     WebDatabase db;
     LoadConfig config;
@@ -15,6 +17,8 @@ int main() {
         printf("Gagal memuat data awal!\n");
         return 1;
     }
+
+    SeedLCG();
 
     // Inisialisasi Tab
     InitTab(&db);
