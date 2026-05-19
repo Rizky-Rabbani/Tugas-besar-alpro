@@ -40,6 +40,9 @@ void CommandRouter1(char* command, WebDatabase *db)
     {
         view_tab_history(db);
 
+    }else if (strcmp(command, "discover") == 0)
+    {
+        Discover(db);
     }
 
 }
