@@ -16,6 +16,8 @@ int main() {
         return 1;
     }
 
+    SeedLCG();
+
     // Inisialisasi Tab
     InitTab(&db);
 
