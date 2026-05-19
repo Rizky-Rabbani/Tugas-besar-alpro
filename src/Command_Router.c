@@ -89,4 +89,8 @@ void CommandRouter2(char* command, char* extra, WebDatabase *db) {
         forward(db, atoi(extra));
 
     }
+    else if(strcmp(command, "save") == 0)
+    {
+        SaveData(db, extra);
+    }
 }
