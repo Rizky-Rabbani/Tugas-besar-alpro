@@ -60,6 +60,11 @@ void printAnya(void);
 // ----- E01 Validasi URL ----- //
 int ValidasiURL(const char* url);
 
+// ----- F01 Discover ----- //
+void SeedLCG();
+unsigned int LCG_Rand();
+void Discover(WebDatabase *db);
+
 // ----- F02 Search ----- //
 void Search(char* query);
 
@@ -84,5 +89,6 @@ void forward(WebDatabase* db, int langkah);
 
 // ----- F08 Tab History ----- // 
 void view_tab_history(WebDatabase* db);
+
 
 #endif
