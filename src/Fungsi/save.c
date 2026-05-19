@@ -5,36 +5,10 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-#ifdef _WIN32
-#include <direct.h>
-#endif
-
-#define SAVE_MAX_PATH_LENGTH 300
-
-static int MakeDirectoryIfNotExist(char *folder)
-{
-    struct stat st = {0};
-
-    if (stat(folder, &st) == -1)
-    {
-#ifdef _WIN32
-        return mkdir(folder);
-#else
-        return mkdir(folder, 0700);
-#endif
-    }
-
-    return 0;
-}
 
 static void WriteEscapedContent(FILE *file, char *content)
 {
     int i = 0;
-
-    if (content == NULL)
-    {
-        return;
-    }
 
     while (content[i] != '\0')
     {
@@ -55,17 +29,22 @@ static void WriteEscapedContent(FILE *file, char *content)
     }
 }
 
-int SaveData(WebDatabase *db, char *folder)
+int SaveData(WebDatabase *db, LoadConfig *config, char *folder)
 {
+    struct stat st = {0};
+
     printf("Saving data into %s folder...\n", folder);
 
-    if (MakeDirectoryIfNotExist(folder) != 0)
+    if (stat(folder, &st) == -1)
     {
-        printf("Error: gagal membuat folder %s\n", folder);
-        return 0;
+        if (mkdir(folder, 0700) != 0)
+        {
+            printf("Error: gagal membuat folder %s\n", folder);
+            return 0;
+        }
     }
 
-    if (!SaveConfigFile(db, folder))
+    if (!SaveConfigFile(db, config, folder))
     {
         printf("Error: gagal menyimpan config.txt\n");
         return 0;
@@ -87,72 +66,51 @@ int SaveData(WebDatabase *db, char *folder)
     return 1;
 }
 
-int SaveConfigFile(WebDatabase *db, char *folder)
+int SaveConfigFile(WebDatabase *db, LoadConfig *config, char *folder)
 {
     FILE *file;
-    char path[SAVE_MAX_PATH_LENGTH];
-    int i, j;
-    int current_web;
+    char path[MAX_PATH_LENGTH];
 
     sprintf(path, "%s/config.txt", folder);
-
     file = fopen(path, "w");
+
     if (file == NULL)
     {
         return 0;
     }
 
-    /*
-        Baris 1:
-        cache_max tabs_max download_max max_web_pages
-    */
+    // BARIS 1: Konstanta Konfigurasi Global (Sudah benar dari teman Anda)
     fprintf(file, "%d %d %d %d\n",
-            CACHE_MAX_AMOUNT,
-            TABS_MAX_AMOUNT,
-            DOWNLOAD_MAX_AMOUNT,
-            MAX_WEB_PAGES);
+            config->cache_max_amount,
+            config->tabs_max_amount,
+            config->download_max_amount,
+            config->max_web_pages);
 
-    /*
-        Baris 2:
-        jumlah_tab current_tab
-    */
-    fprintf(file, "%d %d\n",
-            db->Tab.tab_count,
-            db->Tab.current_tab);
+    // BARIS 2: Status Tab Global (Jumlah tab terbuka dan indeks tab aktif)
+    // Catatan: sesuaikan nama variabel struct .tab_count dan .current_tab dengan struct Anda
+    fprintf(file, "%d %d\n", db->Tab.tab_count, db->Tab.current_tab);
 
-    /*
-        Baris berikutnya:
-        TABx jumlah_web current_web
-        daftar_url_di_tab
-    */
+    // BARIS 3 & 4: Metadata TAB dan Data Riwayat URL (Melakukan looping untuk setiap tab yang terbuka)
+    int i, j;
     for (i = 0; i < db->Tab.tab_count; i++)
     {
-        if (db->Tab.daftar_tab[i].current_web_idx >= 0)
-        {
-            current_web = db->Tab.daftar_tab[i].current_web_idx + 1;
-        }
-        else
-        {
-            current_web = 0;
-        }
+        TabState *tab = &db->Tab.daftar_tab[i];
 
-        fprintf(file, "%s %d %d\n",
-                db->Tab.daftar_tab[i].nama_tab,
-                db->Tab.daftar_tab[i].web_count,
-                current_web);
+        // BARIS 3: Nama TAB, Total Riwayat (web_count), dan Pointer Posisi Riwayat (current_web_idx + 1 agar tidak bernilai 0)
+        // Ditambah 1 pada indeks aktif karena spesifikasi contoh menggunakan basis 1 (1-indexed)
+        int posisi_aktif = tab->current_web_idx + 1; 
+        fprintf(file, "%s %d %d\n", tab->nama_tab, tab->web_count, posisi_aktif);
 
-        for (j = 0; j < db->Tab.daftar_tab[i].web_count; j++)
+        // BARIS 4: Data Riwayat URL dipisahkan oleh spasi
+        for (j = 0; j < tab->web_count; j++)
         {
-            fprintf(file, "%s",
-                    db->Tab.daftar_tab[i].daftar_web[j].web_url);
-
-            if (j < db->Tab.daftar_tab[i].web_count - 1)
+            fprintf(file, "%s", tab->daftar_web[j].web_url);
+            if (j < tab->web_count - 1)
             {
-                fprintf(file, " ");
+                fprintf(file, " "); // Beri spasi antar-URL, kecuali URL terakhir
             }
         }
-
-        fprintf(file, "\n");
+        fprintf(file, "\n"); // Newline setelah mendaftar riwayat satu tab
     }
 
     fclose(file);
@@ -162,12 +120,12 @@ int SaveConfigFile(WebDatabase *db, char *folder)
 int SaveWebPages(WebDatabase *db, char *folder)
 {
     FILE *file;
-    char path[SAVE_MAX_PATH_LENGTH];
+    char path[MAX_PATH_LENGTH];
     int i;
 
     sprintf(path, "%s/web_pages.csv", folder);
-
     file = fopen(path, "w");
+
     if (file == NULL)
     {
         return 0;
@@ -193,13 +151,13 @@ int SaveWebPages(WebDatabase *db, char *folder)
 int SaveLinkedPages(WebDatabase *db, char *folder)
 {
     FILE *file;
-    char path[SAVE_MAX_PATH_LENGTH];
+    char path[MAX_PATH_LENGTH];
     int i, j;
     int id_relasi = 1;
 
     sprintf(path, "%s/linked_pages.csv", folder);
-
     file = fopen(path, "w");
+
     if (file == NULL)
     {
         return 0;
