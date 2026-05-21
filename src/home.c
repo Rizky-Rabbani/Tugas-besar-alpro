@@ -44,10 +44,9 @@ void home(WebDatabase *db, LoadConfig *config)
             // Pengecekan keluar sesuai spesifikasi F11
             if (strcmp(command, "exit") == 0) 
             {
-                // Panggil prosedur penanganan exit (D05 - Save option) 
-                // Harus dibuat
-
+                ExitPage(db, config);
                 running = 0; 
+                printGoodBye();
                 continue;
             }
 

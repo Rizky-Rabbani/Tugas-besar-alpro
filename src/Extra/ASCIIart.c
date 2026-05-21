@@ -77,3 +77,23 @@ void printCenturion() {
     printf("\\____/  /_____/  /_/ |_/  /_/    \\____/  /_/ |_| /___/  \\____/ /_/ |_/   \n");
     printf("\033[0m");    // Reset warna terminal ke default
 }
+
+void printExit() {
+    printf("\033[1;31m"); // Mengubah warna teks menjadi merah bold
+    printf("    ___          _____  ____________           ___\n");
+    printf("   / _/         / __/ |/_/  _/_  __/          /  /\n");
+    printf("  / /          / _/_>  <_/ /  / /             / / \n");
+    printf(" / /          /___/_/|_/___/ /_/            _/ /  \n");
+    printf("/__/                                       /__/   \n");
+    printf("\033[0m");    // Reset warna terminal ke default
+}
+
+void printGoodBye() {
+    printf("\033[1;36m"); // Mengubah warna teks menjadi Cyan Bold
+    printf("            _____             _____                    \n");
+    printf(" ________  / ___/__  ___  ___/ / _ )__ _____   ________\n");
+    printf("/___/___/ / (_ / _ \\/ _ \\/ _  / _  / // / -_) /___/___/\n");
+    printf("          \\___/\\___/\\___/\\_,_/____/\\_, /\\__/           \n");
+    printf("                                  /___/                \n");
+    printf("\033[0m");    // Reset warna terminal ke default
+}

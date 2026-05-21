@@ -59,6 +59,8 @@ void printHarimau(void);
 void printGajahArt(void);
 void printAnya(void);
 void printCenturion(void);
+void printExit(void);
+void printGoodBye(void);
 
 // ----- E01 Validasi URL ----- //
 int ValidasiURL(const char* url);
@@ -103,5 +105,8 @@ void view_tab_history(WebDatabase* db);
 
 // ----- F09 Open Linked ----- //
 void OpenLinked(WebDatabase *db, int current_web_id, int nomor_tautan);
+
+// ----- F11 Exit ----- //
+void ExitPage(WebDatabase *db, LoadConfig *config);
 
 #endif
