@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+/*
 void CommandRouter1(char* command, WebDatabase *db)
 {
     RemoveNewline(command);
@@ -118,4 +119,6 @@ void CommandRouter2(char* command, char* extra, WebDatabase *db, LoadConfig *con
         delete_page(db, extra);
         
     }
+        
 }
+ */

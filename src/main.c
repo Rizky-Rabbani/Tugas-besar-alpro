@@ -1,6 +1,7 @@
 #include "save.h"
 #include "load.h"
 #include "website.h"
+#include "command_router.h"
 #include <stdio.h>
 
 int main() {
@@ -21,6 +22,7 @@ int main() {
 
     // Inisialisasi Tab
     InitTab(&db);
+    SetupCommandRouterMap();
 
     // Masuk ke fungsi home
     home(&db, &config); 
