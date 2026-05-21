@@ -31,6 +31,9 @@ void back(WebDatabase* db, int langkah)
         tab_aktif->current_web_idx -= langkah; // Mundur sebanyak X langkah
         int idx_web = tab_aktif->current_web_idx;
         
+        // Catet di global history
+        RecordGlobalHistory(db, tab_aktif->daftar_web[idx_web].web_url);
+
         printf("\nBACK : Kembali ke website %s\n", tab_aktif->daftar_web[idx_web].web_url);
         printf("%s\n", tab_aktif->daftar_web[idx_web].content);
     }
@@ -49,6 +52,10 @@ void forward(WebDatabase* db, int langkah)
         if (tab_aktif->web_count > 0) {
             int idx_akhir = tab_aktif->web_count - 1; // Langsung arahkan ke web paling ujung
             tab_aktif->current_web_idx = idx_akhir;
+
+            // catet di global history
+            RecordGlobalHistory(db, tab_aktif->daftar_web[idx_akhir].web_url);
+
             printf("\n(Konten web paling akhir: %s)\n", tab_aktif->daftar_web[idx_akhir].web_url);
             printf("%s\n", tab_aktif->daftar_web[idx_akhir].content);
         } else {
@@ -62,6 +69,9 @@ void forward(WebDatabase* db, int langkah)
     {
         tab_aktif->current_web_idx += langkah; // Maju sebanyak X langkah
         int idx_web = tab_aktif->current_web_idx;
+        
+        // catet di global history
+        RecordGlobalHistory(db, tab_aktif->daftar_web[idx_web].web_url);
         
         printf("\nFORWARD : Maju ke website %s\n", tab_aktif->daftar_web[idx_web].web_url);
         printf("%s\n", tab_aktif->daftar_web[idx_web].content);

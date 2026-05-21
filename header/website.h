@@ -6,6 +6,8 @@
 #define DOWNLOAD_MAX_AMOUNT 5
 #define MAX_WEB_PAGES 100
 
+#include "history.h"
+
 // Tipe data Website
 typedef struct{
     int id; 
@@ -41,7 +43,10 @@ typedef struct{
     int matrix[MAX_WEB_PAGES][MAX_WEB_PAGES];
     int website_count;
     TabDatabase Tab;
+
     WebSite Cache[CACHE_MAX_AMOUNT];
+
+    GlobalHistory HistoryGlobal;
 
 }WebDatabase;
 
@@ -66,7 +71,7 @@ void printGoodBye(void);
 int ValidasiURL(const char* url);
 
 // ----- F01 Discover ----- //
-void SeedLCG();
+void SeedLCG(WebDatabase *db, LoadConfig *config);
 unsigned int LCG_Rand();
 void Discover(WebDatabase *db);
 
@@ -108,5 +113,10 @@ void OpenLinked(WebDatabase *db, int current_web_id, int nomor_tautan);
 
 // ----- F11 Exit ----- //
 void ExitPage(WebDatabase *db, LoadConfig *config);
+
+// ----- B02 Global History ----- // 
+void InitGlobalHistory(WebDatabase *db);
+void RecordGlobalHistory(WebDatabase *db, char *url);
+void PrintGlobalHistory(WebDatabase *db);
 
 #endif

@@ -1,8 +1,6 @@
 10 10 5 100
-3 2
-TAB1 1 1
-itb.com
-TAB2 0 0
-
-TAB3 2 1
-penyu-hijau.org orangutan.com
+2 2
+TAB1 3 3
+harimau.com gajahsumatera.com badakambon.com
+TAB2 1 1
+jalak-bali.id

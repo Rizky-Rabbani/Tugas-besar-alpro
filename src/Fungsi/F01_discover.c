@@ -1,6 +1,6 @@
 #include "website.h"
+#include "load.h"
 #include <stdio.h>
-#include <time.h>
 
 #define LCG_A 1103515245
 #define LCG_C 12345
@@ -8,8 +8,13 @@
 
 static unsigned long long lcg_seed = 1;
 
-void SeedLCG() {
-    lcg_seed = (unsigned long long)time(NULL);
+
+void SeedLCG(WebDatabase *db, LoadConfig *config) {
+    // Kombinasi nilai dari database count dan batas maksimum cache/tab
+    lcg_seed = (unsigned long long)(db->website_count * 7 + config->cache_max_amount * 31 + 13);
+    
+    // Lakukan kocokan awal
+    lcg_seed = (LCG_A * lcg_seed + LCG_C) % LCG_M;
 }
 
 unsigned int LCG_Rand() {

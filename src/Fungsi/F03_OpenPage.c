@@ -38,9 +38,12 @@ void open(WebDatabase *db, char* link) {
         // Catat riwayat kunjungan ke tab aktif
         InputTab(db, db->Database[idx_web]);
 
-        // PENTING: Masukkan website yang baru dibaca dari database ini ke dalam Cache
+        // Masukkan website yang baru dibaca dari database ke dalam Cache
         InsertToCache(db, db->Database[idx_web]);
     }
+
+    // Record data di global history
+    RecordGlobalHistory(db, db->Database[idx_web].web_url);
 
     // Cetak konten utama website
     printf("\n%s\n", db->Database[idx_web].content);
