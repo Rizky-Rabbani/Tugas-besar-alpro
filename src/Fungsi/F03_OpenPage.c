@@ -2,47 +2,62 @@
 #include "load.h"
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
 
 void open(WebDatabase *db, char* link) {
     int i, j;
-    int found = 0;
+    int idx_web = -1; // Menampung indeks website utama yang akan diproses
 
-    for(i = 0; i < db->website_count; i++) {
-        if(strcmp(link, db->Database[i].web_url) == 0) 
+    // perika cache
+    int idx_cache = GetCacheIndexByUrl(db, link);
+
+    if (idx_cache != -1)
+    {
+        // CACHE HIT: Teks penanda opsional untuk debugging asisten/dosen praktikum
+        printf("[CACHE HIT] Mengambil data langsung dari memori cache...\n");
+        
+        // Catat riwayat kunjungan ke tab aktif menggunakan data dari cache
+        InputTab(db, db->Cache[idx_cache]);
+        
+        // Cari indeks website asli di database global untuk kebutuhan cetak Linked Pages (Matrix)
+        idx_web = GetWebsiteIndexByUrl(db, link);
+    }
+
+    // kalo gaada di cache, cek di database
+    else
+    {
+        idx_web = GetWebsiteIndexByUrl(db, link);
+
+        if (idx_web == -1)
         {
-            // 1. Catat riwayat kunjungan ke tab aktif terlebih dahulu agar state sinkron
-            InputTab(db, db->Database[i]);
-            found = 1;
-
-            // 2. Tampilkan konten utama website
-            printf("\n%s\n", db->Database[i].content);
-
-            // 3. FITUR WEB GRAPH: Menampilkan linked pages berdasarkan adjacency matrix
-            printf("\nLinked pages :\n");
-            int nomor_tautan = 1;
-
-            // Iterasi kolom pada baris indeks 'i' (website yang sedang dibuka)
-            for(j = 0; j < db->website_count; j++) {
-                
-                // Jika bernilai 1, artinya ada tautan dari website 'i' ke website 'j'
-                if(db->matrix[i][j] == 1) {
-                    printf("[%d] %s\n", nomor_tautan, db->Database[j].web_url);
-                    nomor_tautan++;
-                }
-            }
-
-            // Jika setelah dicek satu baris tidak ada angka 1 sama sekali
-            if(nomor_tautan == 1) 
-            {
-                printf("(Tidak ada website yang tertaut)\n");
-            }
-
+            printf("URL %s tidak ditemukan.\n", link);
             return;
         }
+
+        printf("[CACHE MISS] Membaca database global...\n");
+
+        // Catat riwayat kunjungan ke tab aktif
+        InputTab(db, db->Database[idx_web]);
+
+        // PENTING: Masukkan website yang baru dibaca dari database ini ke dalam Cache
+        InsertToCache(db, db->Database[idx_web]);
     }
-    
-    if(!found) {
-        printf("URL %s tidak ditemukan.\n", link);
+
+    // Cetak konten utama website
+    printf("\n%s\n", db->Database[idx_web].content);
+
+    // Menampilkan linked pages berdasarkan ADT matrix
+    printf("\nLinked pages :\n");
+    int nomor_tautan = 1;
+
+    for(j = 0; j < db->website_count; j++) {
+        if(db->matrix[idx_web][j] == 1) {
+            printf("[%d] %s\n", nomor_tautan, db->Database[j].web_url);
+            nomor_tautan++;
+        }
+    }
+
+    if(nomor_tautan == 1) 
+    {
+        printf("(Tidak ada website yang tertaut)\n");
     }
 }

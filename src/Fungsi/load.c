@@ -146,6 +146,7 @@ void InitWebDatabase(WebDatabase *db)
 
     db->website_count = 0;
 
+    // Inisialisasi Database Utama dan ADT Matrix
     for (i = 0; i < MAX_WEB_PAGES; i++)
     {
         db->Database[i].id = 0;
@@ -156,6 +157,14 @@ void InitWebDatabase(WebDatabase *db)
         {
             db->matrix[i][j] = 0;
         }
+    }
+
+    // UPDATE BARU: Inisialisasi Memori Cache Agar Kosong
+    for (i = 0; i < CACHE_MAX_AMOUNT; i++)
+    {
+        db->Cache[i].id = 0;
+        db->Cache[i].web_url[0] = '\0';
+        db->Cache[i].content = NULL;
     }
 }
 

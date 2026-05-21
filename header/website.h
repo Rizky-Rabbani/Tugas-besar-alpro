@@ -41,6 +41,7 @@ typedef struct{
     int matrix[MAX_WEB_PAGES][MAX_WEB_PAGES];
     int website_count;
     TabDatabase Tab;
+    WebSite Cache[CACHE_MAX_AMOUNT];
 
 }WebDatabase;
 
@@ -72,6 +73,11 @@ void Search(char* query);
 
 // ----- F03 Open ----- //
 void open(WebDatabase* db, char* link);
+
+// ----- F04 ----- //
+void InsertToCache(WebDatabase *db, WebSite web);
+int GetCacheIndexByUrl(WebDatabase *db, char *url);
+
 
 // ----- F05 Page Management ---- //
 void add_page(WebDatabase *db, char *url);
