@@ -37,6 +37,19 @@ typedef struct{
 
 }TabDatabase;
 
+// ----- F10 Download Manager ----- //
+typedef struct{
+    WebSite web;
+    int total_ticks;
+    int remaining_ticks;
+}DownloadItem;
+
+typedef struct{
+    DownloadItem items[DOWNLOAD_MAX_AMOUNT];
+    int front;
+    int rear;
+    int count;
+}DownloadQueue;
 
 typedef struct{
     WebSite Database[MAX_WEB_PAGES];
@@ -45,6 +58,7 @@ typedef struct{
     TabDatabase Tab;
 
     WebSite Cache[CACHE_MAX_AMOUNT];
+    DownloadQueue Download;
 
     GlobalHistory HistoryGlobal;
 
@@ -110,6 +124,11 @@ void view_tab_history(WebDatabase* db);
 
 // ----- F09 Open Linked ----- //
 void OpenLinked(WebDatabase *db, int current_web_id, int nomor_tautan);
+
+// ----- F10 Download Manager ----- //
+void InitDownloadQueue(WebDatabase *db);
+void download(WebDatabase *db, LoadConfig *config, char *url);
+void tick_download(WebDatabase *db);
 
 // ----- F11 Exit ----- //
 void ExitPage(WebDatabase *db, LoadConfig *config);
