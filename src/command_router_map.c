@@ -42,6 +42,8 @@ void WrapForward1(WebDatabase *db) { forward(db, 1); }
 void WrapNextTab1(WebDatabase *db) { nexttab(db, 1); }
 void WrapPrevTab1(WebDatabase *db) { prevtab(db, 1); }
 void WrapViewHistoryGlobal(WebDatabase *db) { PrintGlobalHistory(db); }
+static void WrapAnonym(WebDatabase *db) {  printAnonym(); }
+
 
 // Wrapper Router 2 
 void WrapOpen(char *extra, WebDatabase *db, LoadConfig *config) { open(db, extra); }
@@ -90,6 +92,7 @@ void SetupCommandRouterMap() {
     RegisterCommand1(&cmd_map, "nexttab", WrapNextTab1);
     RegisterCommand1(&cmd_map, "prevtab", WrapPrevTab1);
     RegisterCommand1(&cmd_map, "history", WrapViewHistoryGlobal);
+    RegisterCommand1(&cmd_map, "anonym", WrapAnonym);
 
     // Registrasi Router 2 (Key -> Value Function)
     RegisterCommand2(&cmd_map, "open", WrapOpen);

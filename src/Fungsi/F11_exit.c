@@ -7,6 +7,8 @@
 
 void ExitPage(WebDatabase *db, LoadConfig *config)
 {
+    printExit();
+
     char input;
     char folder[100]; 
 

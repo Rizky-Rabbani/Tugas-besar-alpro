@@ -1,6 +1,6 @@
 10 10 5 100
-2 2
+2 1
 TAB1 3 3
-harimau.com gajahsumatera.com badakambon.com
+hukum-ohm.com sumber-daya-dc.id induktor.com
 TAB2 1 1
-jalak-bali.id
+dioda-penyearah.com

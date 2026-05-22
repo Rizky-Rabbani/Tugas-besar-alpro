@@ -66,6 +66,7 @@ void printAnya(void);
 void printCenturion(void);
 void printExit(void);
 void printGoodBye(void);
+void printAnonym(void);
 
 // ----- E01 Validasi URL ----- //
 int ValidasiURL(const char* url);
