@@ -42,8 +42,10 @@ void WrapForward1(WebDatabase *db) { forward(db, 1); }
 void WrapNextTab1(WebDatabase *db) { nexttab(db, 1); }
 void WrapPrevTab1(WebDatabase *db) { prevtab(db, 1); }
 void WrapViewHistoryGlobal(WebDatabase *db) { PrintGlobalHistory(db); }
-static void WrapAnonym(WebDatabase *db) {  printAnonym(); }
-
+void WrapAnonym(WebDatabase *db) {  printAnonym(); }
+static void WrapTickDownload(WebDatabase *db) { 
+    tick_download(db); 
+}
 
 // Wrapper Router 2 
 void WrapOpen(char *extra, WebDatabase *db, LoadConfig *config) { open(db, extra); }
@@ -55,7 +57,9 @@ void WrapForwardN(char *extra, WebDatabase *db, LoadConfig *config) { forward(db
 void WrapAddPage(char *extra, WebDatabase *db, LoadConfig *config) { add_page(db, extra); }
 void WrapEditPage(char *extra, WebDatabase *db, LoadConfig *config) { edit_page(db, extra); }
 void WrapDeletePage(char *extra, WebDatabase *db, LoadConfig *config) { delete_page(db, extra); }
-
+static void WrapDownload(char *extra, WebDatabase *db, LoadConfig *config) { 
+    download(db, config, extra); 
+}
 void WrapOpenLinked(char *extra, WebDatabase *db, LoadConfig *config) {
     int nomor_tautan;
     if (sscanf(extra, "%d", &nomor_tautan) == 1) {
@@ -70,6 +74,7 @@ void WrapOpenLinked(char *extra, WebDatabase *db, LoadConfig *config) {
         printf("\nERROR: Argumen harus berupa angka integer!\n");
     }
 }
+
 
 
 // --------------------// FUNGSI INTI // -------------------- //
@@ -93,6 +98,7 @@ void SetupCommandRouterMap() {
     RegisterCommand1(&cmd_map, "prevtab", WrapPrevTab1);
     RegisterCommand1(&cmd_map, "history", WrapViewHistoryGlobal);
     RegisterCommand1(&cmd_map, "anonym", WrapAnonym);
+    RegisterCommand1(&cmd_map, "tick", WrapTickDownload); // <--- Tambahkan ini
 
     // Registrasi Router 2 (Key -> Value Function)
     RegisterCommand2(&cmd_map, "open", WrapOpen);
@@ -105,6 +111,7 @@ void SetupCommandRouterMap() {
     RegisterCommand2(&cmd_map, "add_page", WrapAddPage);
     RegisterCommand2(&cmd_map, "edit_page", WrapEditPage);
     RegisterCommand2(&cmd_map, "delete_page", WrapDeletePage);
+    RegisterCommand2(&cmd_map, "download", WrapDownload); // <--- Tambahkan ini
 }
 
 void CommandRouter1(char* command, WebDatabase *db)

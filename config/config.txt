@@ -1,6 +1,8 @@
 10 10 5 100
-2 1
-TAB1 3 3
-hukum-ohm.com sumber-daya-dc.id induktor.com
+3 1
+TAB1 5 4
+hukum-ohm.com resistor.com hukum-kirchhoff-kcl.com hukum-kirchhoff-kvl.com sumber-daya-dc.id
 TAB2 1 1
-dioda-penyearah.com
+kapasitor.com
+TAB3 1 1
+induktor.com

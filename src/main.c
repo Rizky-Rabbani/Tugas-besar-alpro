@@ -26,6 +26,7 @@ int main() {
     InitTab(&db);
     SetupCommandRouterMap();
     InitGlobalHistory(&db);
+    InitDownloadQueue(&db);
 
     // Masuk ke fungsi home
     home(&db, &config); 

@@ -2,13 +2,12 @@
 #include <stdio.h>
 #include <string.h>
 
-// Fungsi helper untuk mendapatkan waktu terminal saat ini (Format HH:MM)
-// Menggunakan LCG statis internal/simulasi waktu karena time.h dilarang oleh panitia
+// menggunakan "simulasi waktu" karena penggunaan library time.h dilarang
 static void GetSimulatedTime(char *output) {
     static int dummy_hour = 14;
     static int dummy_min = 0;
     
-    // Setiap kali halaman dibuka, waktu disimulasikan maju sedikit demi sedikit
+    // Setiap kali halaman dibuka, waktu disimulasikan maju sedikit
     dummy_min += 1;
     if (dummy_min >= 60) {
         dummy_min = 0;
@@ -17,7 +16,7 @@ static void GetSimulatedTime(char *output) {
     sprintf(output, "%02d:%02d", dummy_hour, dummy_min);
 }
 
-// 1. Inisialisasi awal Global History
+// Inisialisasi awal Global History
 void InitGlobalHistory(WebDatabase *db) {
     db->HistoryGlobal.history_count = 0;
     for (int i = 0; i < HISTORY_MAX_AMOUNT; i++) {
@@ -26,7 +25,7 @@ void InitGlobalHistory(WebDatabase *db) {
     }
 }
 
-// 2. Prosedur untuk mencatat atau memperbarui riwayat (Push/Update Priority)
+// Prosedur untuk mencatat atau memperbarui history
 void RecordGlobalHistory(WebDatabase *db, char *url) {
     char current_time[6];
     GetSimulatedTime(current_time);
